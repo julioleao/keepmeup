@@ -1,0 +1,55 @@
+{
+  "project": [
+    {
+      "id": 1,
+      "name": "Mobile",
+      "descprition": "Desenvolver um aplicativo Android utilizanod React Native",
+      "date": "20-11-2020",
+      "tasks": [
+        {
+          "id": 1,
+          "task": "Header",
+          "req": "O Header deve ter fonte clara e fundo roxo claro"
+        },
+        {
+          "id": 2,
+          "task": "Tela de login",
+          "req": "A tela deverá ter um campo para e-mail e outro para senha. Os campos devem validar os valores para um e-mail válida e senha maior que 4 caracteres"
+        },
+        {
+          "id": 3,
+          "task": "Mengsagem de erro",
+          "req": "As mensagens de erro devem ter a fonte tam x e com a cor vermelha"
+        },
+        {
+          "id": 4,
+          "task": "Tela de listagem de usuários",
+          "req": "A tela deverá mostrar de 10 em 10 usuários e ir carregando a medida que for descendo a tela, cada usuário deverá ter foto, primeiro nome e ultimo nome"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Desenvolvimento Web",
+      "descprition": "Criar um site dinamico utilizando React.js e Redux",
+      "date": "15-11-2020",
+      "tasks": [
+        {
+          "id": 1,
+          "task": "Página estática",
+          "req": "Desenvolver página web está usando apenas html onde deverá ser mostrado apenas seu nome"
+        },
+        {
+          "id": 2,
+          "task": "Incluir CSS",
+          "req": "Incluir estilos CSS para que o nome fique no centro da página"
+        },
+        {
+          "id": 3,
+          "task": "Javascript",
+          "req": "Transformar a página em dinâmica incluindo javascript"
+        }
+      ]
+    }    
+  ]	
+}
