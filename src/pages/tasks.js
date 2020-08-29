@@ -2,13 +2,13 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import Line from '../components/Line';
 
-export default class Product extends React.Component {
+export default class Tasks extends React.Component {
     render() {
-        const { product } = this.props.navigation.state.params;
+        const { tasks } = this.props.navigation.state.params;
         return(
             <View style={styles.container}>
                 <View style={styles.detailContainer}>
-                    <Line label='Descrição:' content={product.description}/>
+                    <Line label='Descrição:' content={tasks.task}/>
                     {/* <Line label='Profissão:' content={person.profissao}/> */}
                 </View>
             </View>

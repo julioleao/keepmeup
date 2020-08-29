@@ -1,17 +1,17 @@
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import Main from './pages/main';
-import Product from './pages/product';
+import Project from './pages/project';
 
 
 const Routes = createStackNavigator({
     Main: {
       screen: Main
     },
-    Product:{
-      screen: Product,
+    Project:{
+      screen: Project,
       navigationOptions: ({navigation}) => ({
-        title: navigation.state.params.product.title
+        title: navigation.state.params.project.name
       }),        
     },
   }, {

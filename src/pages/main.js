@@ -5,46 +5,32 @@ import api from '../services/api';
 
 export default class Main extends Component {
     state ={
-        productInfo: {},
-        docs: [],
-        page: 1,
-    };    
+        project: [],
+    };  
+
     componentDidMount() {
-        this.loadProducts();
+        this.loadProjects();
     }
 
-    
+    loadProjects = async () => {
+        const response = await api.get("/5f497973993a2e110d38996e");
 
-    loadProducts = async (page = 1) => {
-        const response = await api.get(`/products?page=${page}`);
-
-        const { docs, ...productInfo } = response.data;
+        const { project } = response.data;
 
         this.setState({ 
-            docs: [...this.state.docs, ...docs],
-            productInfo,
-            page
+            project
         });
     };
 
-    loadMore = () => {
-        const { page, productInfo } = this.state;
-
-        if(page === productInfo.pages) return;
-
-        const pageNumber = page +1;
-        this.loadProducts(pageNumber);
-    };
-
     renderItem = ({ item }) => (
-        <View style={styles.productContainer}>
-            <Text style={styles.productTitle}>{item.title}</Text>
-            <Text style={styles.productDescription}>{item.description}</Text>
+        <View style={styles.projectContainer}>
+            <Text style={styles.projectTitle}>{item.name}</Text>
+            <Text style={styles.projectDescription}>{item.descprition}</Text>
 
-            <TouchableOpacity style={styles.productButton} onPress={() => {
-                this.props.navigation.navigate("Product", { product: item });
+            <TouchableOpacity style={styles.projectButton} onPress={() => {
+                this.props.navigation.navigate("Project", { project: item });
             }}>
-                <Text style={styles.productButtonText}>Acessar</Text>
+                <Text style={styles.projectButtonText}>Tarefas</Text>
             </TouchableOpacity>
         </View>
     );
@@ -54,11 +40,9 @@ export default class Main extends Component {
             <View style={styles.container}>
                 <FlatList
                     contentContainerStyle={styles.list}
-                    data={this.state.docs}
-                    keyExtractor={item => item._id}
+                    data={this.state.project}
+                    keyExtractor={item => item.id}
                     renderItem={this.renderItem}
-                    onEndReached={this.loadMore}
-                    onEndReachedThreshold={0.1}
                 />
             </View>
         );
@@ -75,7 +59,7 @@ const styles = StyleSheet.create({
         padding: 20
     },
 
-    productContainer: {
+    projectContainer: {
         backgroundColor: "#fff",
         borderWidth: 1,
         borderColor: "#DDD",
@@ -84,20 +68,20 @@ const styles = StyleSheet.create({
         marginBottom: 20
     },
 
-    productTitle: {
+    projectTitle: {
         fontSize: 18,
         fontWeight: "bold",
         color: "#333"
     },
 
-    productDescription: {
+    projectDescription: {
         fontSize: 16,
         color: "#999",
         marginTop: 5,
         lineHeight: 24
     },
 
-    productButton: {
+    projectButton: {
         height: 42,
         borderRadius: 5,
         borderWidth: 2,
@@ -108,7 +92,7 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
 
-    productButtonText: {
+    projectButtonText: {
         fontSize: 16,
         color: "#212724",
         fontWeight: "bold"
