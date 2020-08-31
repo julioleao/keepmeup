@@ -3,9 +3,9 @@ import {Text, TouchableOpacity, View} from 'react-native';
 import Styles from '../styles/Styles';
 import capitalizeFirstLetter from '../util/CapitalizeFirstLetter';
 
-const TaskListItem = (props) => {
+const ProjectListItem = (props) => {
   const {task, onPressItem} = props;
-  const {name, date, description} = task;
+  const {name, date, req} = task;
 
   //const {name, req} = tasks;
   return (
@@ -17,8 +17,8 @@ const TaskListItem = (props) => {
         <Text style={Styles.projectTitle}>{capitalizeFirstLetter(name)}</Text>
       </View>
       <View style={Styles.reqContainer}>
-        <Text style={Styles.fontBold}>Descrição</Text>
-        <Text style={Styles.projectReq}>{description}</Text>
+        <Text style={Styles.fontBold}>Requisitos</Text>
+        <Text style={Styles.projectReq}>{req}</Text>
       </View>
       <View style={Styles.descriptionContainer}>
         <Text style={Styles.projectDate}>Data limite: {date}</Text>
@@ -27,4 +27,4 @@ const TaskListItem = (props) => {
   );
 };
 
-export default TaskListItem;
+export default ProjectListItem;

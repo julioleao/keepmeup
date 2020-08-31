@@ -1,7 +1,9 @@
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
+import ProjectPage from './src/screens/ProjectPage';
 import TaskDetail from './src/screens/TaskDetail';
 import TaskPage from './src/screens/TaskPage';
+import capitalizeFirstLetter from './src/util/CapitalizeFirstLetter';
 
 const StackNavigator = createStackNavigator(
   {
@@ -10,17 +12,32 @@ const StackNavigator = createStackNavigator(
     },
     'TaskDetail': {
       screen: TaskDetail,
-      navigationOptions: ({navigation}) => ({
-        title: navigation.state.params.task.name,
-      }),
+      navigationOptions: ({navigation}) => {
+        const taskName = navigation.state.params.task.name;
+
+        return({
+          title: capitalizeFirstLetter(taskName),
+        })
+      },
+    },
+    'ProjectPage': {
+      screen: ProjectPage,
+      navigationOptions: ({navigation}) => {
+        const taskName = navigation.state.params.task.name;
+  
+        return({
+          title: capitalizeFirstLetter(taskName),
+        })
+      },
     },
   },
+  
   {
     defaultNavigationOptions: {
-      title: 'Minhas Tarefas',
+      title: 'Meus Projetos',
       headerTitleStyle: {
         color: 'white',
-        fontSize: 24,
+        fontSize: 22,
         flexGrow: 1,
         textAlign: 'center',
       },

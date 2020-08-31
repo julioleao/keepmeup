@@ -17,13 +17,14 @@ export default class TaskPage extends Component<Props> {
   componentDidMount() {
     this.setState({loading: true});
     axios
-      .get('https://api.jsonbin.io/b/5f4a9783993a2e110d391a14')
+      .get('https://api.jsonbin.io/b/5f4bab174d8ce4111383f5ea/1')
       .then((response) => {
         const {project} = response.data;
         this.setState({
           task: project,
           loading: false,
         });
+
       })
       .catch((error) => {
         this.setState({
@@ -40,13 +41,13 @@ export default class TaskPage extends Component<Props> {
           <ActivityIndicator size="large" color="#CBCBCB" />
         ) : this.state.error ? (
           <Text style={styles.error}>
-            Erro ao carregar lista de contatos...
+            Erro ao carregar lista!
           </Text>
         ) : (
           <TaskList
             task={this.state.task}
             onPressItem={(parameters) =>
-              this.props.navigation.navigate('TaskDetail', parameters)
+              this.props.navigation.navigate('ProjectPage', parameters)
             }
           />
         )}
