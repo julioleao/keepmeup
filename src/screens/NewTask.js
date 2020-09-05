@@ -15,7 +15,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 
-export default class TaskDetail extends React.Component {
+export default class NewTask extends React.Component {
   state = {
     date: new Date().getDate(),
     showDatePicker: false,
@@ -51,24 +51,20 @@ export default class TaskDetail extends React.Component {
   };
 
   render() {
-    const {task} = this.props.navigation.state.params;
-    const {name, req, date} = task;
 
     return (
       <View style={Styles.container}>
         <View style={Styles.titleContainer}>
-          <Text style={Styles.projectTitle}>EDITAR</Text>
+          <Text style={Styles.projectTitle}>Criar nova Tarefa</Text>
         </View>
         <View style={Styles.reqContainer}>
           <Text style={Styles.fontBold}>Título</Text>
 
-          <TextInput style={styles.input} autoFocus={true}>
-            {capitalizeFirstLetter(name)}
+          <TextInput style={styles.input} autoFocus={true} placeholder="Dê um nome">
           </TextInput>
 
           <Text style={Styles.fontBold}>Requisitos</Text>
-          <TextInput multiline style={styles.input}>
-            {req}
+          <TextInput multiline style={styles.input} placeholder="Quais os requisitos?">
           </TextInput>
           <Text style={Styles.fontBold}>Data</Text>
           {this.getDatetimePicker()}

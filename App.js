@@ -1,11 +1,17 @@
+import React from 'react';
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
+import {createBottomTabNavigator} from 'react-navigation-tabs';
 import ProjectPage from './src/screens/ProjectPage';
 import TaskDetail from './src/screens/TaskDetail';
 import TaskPage from './src/screens/TaskPage';
 import capitalizeFirstLetter from './src/util/CapitalizeFirstLetter';
 import LoginScreen from './src/screens/LoginScreen';
 import Home from './src/screens/Home';
+import TeamPage from './src/screens/TeamPage';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import NewTask from './src/screens/NewTask';
+import NewProject from './src/screens/NewProject';
 
 const StackNavigator = createStackNavigator(
   {
@@ -16,9 +22,9 @@ const StackNavigator = createStackNavigator(
       },
     },
     Main: {
-      screen: Home,
+      screen: TaskPage,
       navigationOptions: {
-        headerShown: false
+        headerShown: false,
       },
     },
     TaskDetail: {
@@ -41,6 +47,18 @@ const StackNavigator = createStackNavigator(
         };
       },
     },
+    NewTask: {
+      screen: NewTask,
+      navigationOptions:{
+        title: 'NOVA TAREFA'
+      }
+    },
+    NewProject: {
+      screen: NewProject,
+      navigationOptions:{
+        title: 'NOVO PROJETO'
+      }
+    },
   },
 
   {
@@ -60,6 +78,15 @@ const StackNavigator = createStackNavigator(
   },
 );
 
-const AppContainer = createAppContainer(StackNavigator);
+const TabNavigator = createBottomTabNavigator({
+  Projetos: {
+    screen: StackNavigator,
+  },
+  Time: {
+    screen: TeamPage,
+  },
+});
+
+const AppContainer = createAppContainer(TabNavigator, StackNavigator);
 
 export default AppContainer;

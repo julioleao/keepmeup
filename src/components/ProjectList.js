@@ -1,6 +1,7 @@
 import React from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet, View, TouchableOpacity } from 'react-native';
 import ProjectListItem from './ProjectListItem';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const ProjectList = (props) => {
   const {task, onPressItem} = props;
@@ -14,7 +15,7 @@ const ProjectList = (props) => {
           <ProjectListItem task={item} onPressItem={onPressItem} />
         )}
         keyExtractor={(item) => item.req}
-      />
+      />      
     </View>
   );
 };

@@ -1,10 +1,17 @@
 import axios from 'axios';
-import React, { Component } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View, Image } from 'react-native';
+import React, {Component} from 'react';
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import TaskList from '../components/TaskList';
 import Styles from '../styles/Styles';
 import Firebase from '../../Firebase';
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class TaskPage extends Component {
   constructor(props) {
@@ -25,7 +32,6 @@ export default class TaskPage extends Component {
           task: project,
           loading: false,
         });
-
       })
       .catch((error) => {
         this.setState({
@@ -36,15 +42,12 @@ export default class TaskPage extends Component {
   }
 
   render() {
-    const logo = require ('../assets/logo.png');
     return (
       <View style={styles.container}>
         {this.state.loading ? (
           <ActivityIndicator size="large" color="#CBCBCB" />
         ) : this.state.error ? (
-          <Text style={styles.error}>
-            Erro ao carregar lista!
-          </Text>
+          <Text style={styles.error}>Erro ao carregar lista!</Text>
         ) : (
           <TaskList
             task={this.state.task}
@@ -53,6 +56,9 @@ export default class TaskPage extends Component {
             }
           />
         )}
+        <TouchableOpacity style={Styles.addButton} onPress={() => this.props.navigation.navigate('NewProject')}>
+          <Icon name="plus" size={20} color="#FFF" />
+        </TouchableOpacity>
       </View>
     );
   }

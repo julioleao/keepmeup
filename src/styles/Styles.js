@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     paddingHorizontal: 20,
+    backgroundColor: '#FFF'
   },
   list: {
     padding: 20,
@@ -83,6 +84,31 @@ const styles = StyleSheet.create({
     width: null,
     height: null,
     resizeMode: 'contain'
+  },
+  right:{
+    backgroundColor: 'red',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    paddingHorizontal: 20
+  },
+  left:{
+    backgroundColor: 'green',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20
+  },
+  addButton: {
+    position: 'absolute',
+    right: 30,
+    bottom: 30,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: '#6f00ff',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
 });
 
