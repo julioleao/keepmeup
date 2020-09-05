@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import ProjectList from '../components/ProjectList';
+import Firebase from '../../Firebase';
+
 
 export default class ProjectPage extends Component {
   render() {    

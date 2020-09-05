@@ -1,11 +1,12 @@
 import axios from 'axios';
 import React, { Component } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View, Image } from 'react-native';
 import TaskList from '../components/TaskList';
+import Styles from '../styles/Styles';
+import Firebase from '../../Firebase';
 
 
-type Props = {};
-export default class TaskPage extends Component<Props> {
+export default class TaskPage extends Component {
   constructor(props) {
     super(props);
 
@@ -35,6 +36,7 @@ export default class TaskPage extends Component<Props> {
   }
 
   render() {
+    const logo = require ('../assets/logo.png');
     return (
       <View style={styles.container}>
         {this.state.loading ? (

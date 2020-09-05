@@ -78,6 +78,12 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     textAlign: 'left'
   },
+  logo: {
+    flex: 1,
+    width: null,
+    height: null,
+    resizeMode: 'contain'
+  },
 });
 
 export default styles;

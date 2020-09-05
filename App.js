@@ -1,40 +1,50 @@
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
+import {createAppContainer} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
 import ProjectPage from './src/screens/ProjectPage';
 import TaskDetail from './src/screens/TaskDetail';
 import TaskPage from './src/screens/TaskPage';
 import capitalizeFirstLetter from './src/util/CapitalizeFirstLetter';
+import LoginScreen from './src/screens/LoginScreen';
+import Home from './src/screens/Home';
 
 const StackNavigator = createStackNavigator(
   {
-    'Main': {
-      screen: TaskPage,
+    Login: {
+      screen: LoginScreen,
+      navigationOptions: {
+        title: 'Bem vindo',
+      },
     },
-    'TaskDetail': {
+    Main: {
+      screen: Home,
+      navigationOptions: {
+        headerShown: false
+      },
+    },
+    TaskDetail: {
       screen: TaskDetail,
       navigationOptions: ({navigation}) => {
         const taskName = navigation.state.params.task.name;
 
-        return({
+        return {
           title: capitalizeFirstLetter(taskName),
-        })
+        };
       },
     },
-    'ProjectPage': {
+    ProjectPage: {
       screen: ProjectPage,
       navigationOptions: ({navigation}) => {
         const taskName = navigation.state.params.task.name;
-  
-        return({
+
+        return {
           title: capitalizeFirstLetter(taskName),
-        })
+        };
       },
     },
   },
-  
+
   {
     defaultNavigationOptions: {
-      title: 'Meus Projetos',
       headerTitleStyle: {
         color: 'white',
         fontSize: 22,

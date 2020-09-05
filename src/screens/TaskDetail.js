@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import Styles from '../styles/Styles';
 import capitalizeFirstLetter from '../util/CapitalizeFirstLetter';
+import Firebase from '../../Firebase';
 
 export default class TaskDetail extends React.Component {
   render() {
