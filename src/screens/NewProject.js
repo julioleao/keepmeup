@@ -17,7 +17,7 @@ import moment from 'moment';
 
 export default class NewProject extends React.Component {
   state = {
-    date: new Date().getDate(),
+    date: new Date(),
     showDatePicker: false,
   };
 

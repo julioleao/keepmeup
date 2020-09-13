@@ -42,20 +42,21 @@ const ProjectListItem = (props) => {
   const {name, date, req} = task;
   //const {name, req} = tasks;
   return (
-    <Swipeable
-      renderRightActions={getRightContent}
-      renderLeftActions={() => {
-        return (
-          <TouchableOpacity
-            style={Styles.left}
-            onPress={() => {
-              onPressItem({task});
-            }}>
-            <Icon name="edit" size={30} color="#FFF" />
-          </TouchableOpacity>
-        );
-      }}>
-      <View style={styles.projectContainer}>
+    <View>
+      <Swipeable
+        renderRightActions={getRightContent}
+        renderLeftActions={() => {
+          return (
+            <TouchableOpacity
+              style={Styles.left}
+              onPress={() => {
+                onPressItem({task});
+              }}>
+              <Icon name="edit" size={30} color="#FFF" />
+            </TouchableOpacity>
+          );
+        }}>
+        <View>
           <View style={Styles.titleContainer}>
             <Text style={Styles.projectTitle}>
               {capitalizeFirstLetter(name)}
@@ -65,11 +66,12 @@ const ProjectListItem = (props) => {
             <Text style={Styles.fontBold}>Requisitos</Text>
             <Text style={Styles.projectReq}>{req}</Text>
           </View>
-          <View style={Styles.descriptionContainer}>
-            <Text style={Styles.projectDate}>Data limite: {date}</Text>
-          </View>
+        </View>
+      </Swipeable>
+      <View style={Styles.descriptionContainer}>
+        <Text style={Styles.projectDate}>Data limite: {date}</Text>
       </View>
-    </Swipeable>
+    </View>
   );
 };
 

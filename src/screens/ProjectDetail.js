@@ -52,7 +52,7 @@ export default class TaskDetail extends React.Component {
 
   render() {
     const {task} = this.props.navigation.state.params;
-    const {name, req, date} = task;
+    const {name, description } = task;
 
     return (
       <View style={Styles.container}>
@@ -66,9 +66,9 @@ export default class TaskDetail extends React.Component {
             {capitalizeFirstLetter(name)}
           </TextInput>
 
-          <Text style={Styles.fontBold}>Requisitos</Text>
+          <Text style={Styles.fontBold}>Descrição</Text>
           <TextInput multiline style={styles.input}>
-            {req}
+            {description}
           </TextInput>
           <Text style={Styles.fontBold}>Data</Text>
           {this.getDatetimePicker()}

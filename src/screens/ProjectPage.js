@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '../styles/Styles';
 
 export default class ProjectPage extends Component {
+  
   render() {
     const {task} = this.props.navigation.state.params;
     const textElements = task.tasks.map((projeto) => {
@@ -14,7 +15,7 @@ export default class ProjectPage extends Component {
     console.log(textElements);
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, {paddingHorizontal:0}]}>
         <ProjectList
           task={textElements}
           onPressItem={(parameters) =>

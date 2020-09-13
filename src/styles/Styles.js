@@ -69,6 +69,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     backgroundColor: '#FFF'
   },
+  containerLogin: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 30,
+    backgroundColor: '#FFF'
+  },
   list: {
     padding: 20,
   },
@@ -78,6 +84,15 @@ const styles = StyleSheet.create({
     color: '#5a5a5a',
     lineHeight: 20,
     textAlign: 'left'
+  },
+  error: {
+    fontWeight: 'bold',
+    fontSize: 15,
+    color: 'red',
+    marginTop: 20,
+    lineHeight: 20,
+    justifyContent:"center",
+    textAlign: 'center'
   },
   logo: {
     flex: 1,
