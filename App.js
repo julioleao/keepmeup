@@ -39,6 +39,32 @@ const LoginNavigator = createStackNavigator(
   },
 );
 
+const TeamNavigator = createStackNavigator(
+  {
+    Team: {
+      screen: TeamPage,
+      navigationOptions: {
+        headerShown: false,
+      },
+    },
+  },
+  {
+    defaultNavigationOptions: {
+      headerTitleStyle: {
+        color: 'white',
+        fontSize: 22,
+        flexGrow: 1,
+        textAlign: 'center',
+      },
+      headerStyle: {
+        backgroundColor: '#6f00ff',
+        borderBottomWidth: 1,
+        borderBottomColor: '#C5C5C5',
+      },
+    },
+  },
+);
+
 const StackNavigator = createStackNavigator(
   {
     Main: {
@@ -50,7 +76,7 @@ const StackNavigator = createStackNavigator(
     TaskDetail: {
       screen: TaskDetail,
       navigationOptions: ({navigation}) => {
-        const taskName = navigation.state.params.task.name;
+        const taskName = navigation.state.params.tasks.task;
 
         return {
           title: capitalizeFirstLetter(taskName),
@@ -113,7 +139,7 @@ const TabNavigator = createBottomTabNavigator({
     screen: StackNavigator,
   },
   Time: {
-    screen: TeamPage,
+    screen: TeamNavigator,
   },
 });
 

@@ -1,22 +1,22 @@
 import React from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
-import ProjectListItem from './ProjectListItem';
+import PeopleListItem from './PeopleListItem';
 import firebase from 'firebase';
 
 
-const ProjectList = (props) => {
-  const {tasks, onPressItem} = props;
+const PeopleList = (props) => {
+  const {task, onPressItem} = props;
 
   return (
     <View style={styles.container}>
       <FlatList
         contentContainerStyle={styles.list}
-        data={tasks}
+        data={task}
         renderItem={({item}) => (
-          <ProjectListItem tasks={item} onPressItem={onPressItem} />
+          <PeopleListItem task={item} onPressItem={onPressItem} />
         )}
-        keyExtractor={(item) => item.req}
-      />      
+        keyExtractor={(item) => item._id}
+      />
     </View>
   );
 };
@@ -32,4 +32,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProjectList;
+export default PeopleList;

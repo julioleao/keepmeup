@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import ProjectList from '../components/ProjectList';
-import Firebase from '../../Firebase';
 import {TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '../styles/Styles';
+import firebase from 'firebase';
+
 
 export default class ProjectPage extends Component {
   
@@ -12,12 +13,12 @@ export default class ProjectPage extends Component {
     const textElements = task.tasks.map((projeto) => {
       return projeto;
     });
-    console.log(textElements);
+    //console.log(textElements);
 
     return (
       <View style={[styles.container, {paddingHorizontal:0}]}>
         <ProjectList
-          task={textElements}
+          tasks={textElements}
           onPressItem={(parameters) =>
             this.props.navigation.navigate('TaskDetail', parameters)
           }

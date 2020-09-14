@@ -10,10 +10,11 @@ import {
 } from 'react-native';
 import Styles from '../styles/Styles';
 import capitalizeFirstLetter from '../util/CapitalizeFirstLetter';
-import Firebase from '../../Firebase';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
+import firebase from 'firebase';
+
 
 export default class TaskDetail extends React.Component {
   state = {
@@ -51,8 +52,8 @@ export default class TaskDetail extends React.Component {
   };
 
   render() {
-    const {task} = this.props.navigation.state.params;
-    const {name, req, date} = task;
+    const {tasks} = this.props.navigation.state.params;
+    const {task, req} = tasks;
 
     return (
       <View style={Styles.container}>
@@ -63,7 +64,7 @@ export default class TaskDetail extends React.Component {
           <Text style={Styles.fontBold}>Título</Text>
 
           <TextInput style={styles.input} autoFocus={true}>
-            {capitalizeFirstLetter(name)}
+            {capitalizeFirstLetter(task)}
           </TextInput>
 
           <Text style={Styles.fontBold}>Requisitos</Text>

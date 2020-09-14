@@ -8,7 +8,7 @@ import {
   Text,
   Alert,
 } from 'react-native';
-import firebase from 'firebase';
+import firebase from '../../Firebase';
 import Styles from '../styles/Styles';
 
 import FormRow from '../components/FormRow';

@@ -9,11 +9,11 @@ import {
   Platform,
 } from 'react-native';
 import Styles from '../styles/Styles';
-import capitalizeFirstLetter from '../util/CapitalizeFirstLetter';
-import Firebase from '../../Firebase';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
+import firebase from 'firebase';
+
 
 export default class NewTask extends React.Component {
   state = {

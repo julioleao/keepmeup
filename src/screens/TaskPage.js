@@ -5,15 +5,14 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   TouchableOpacity,
 } from 'react-native';
 import TaskList from '../components/TaskList';
 import Styles from '../styles/Styles';
-import Firebase from '../../Firebase';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class TaskPage extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
 
@@ -23,11 +22,13 @@ export default class TaskPage extends Component {
     };
   }
   componentDidMount() {
+    this._isMounted = true;
     this.setState({loading: true});
     axios
-      .get('https://api.jsonbin.io/b/5f4bab174d8ce4111383f5ea/1')
+      .get('https://api.jsonbin.io/b/5f4bab174d8ce4111383f5ea/2')
       .then((response) => {
         const {project} = response.data;
+
         this.setState({
           task: project,
           loading: false,
@@ -39,6 +40,10 @@ export default class TaskPage extends Component {
           loading: false,
         });
       });
+  }
+  
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {
@@ -53,6 +58,9 @@ export default class TaskPage extends Component {
             task={this.state.task}
             onPressItem={(parameters) =>
               this.props.navigation.navigate('ProjectPage', parameters)
+            }
+            onPressEdit={(parameters) =>
+              this.props.navigation.navigate('ProjectDetail', parameters)
             }
           />
         )}

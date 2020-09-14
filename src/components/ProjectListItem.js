@@ -4,8 +4,9 @@ import Styles from '../styles/Styles';
 import capitalizeFirstLetter from '../util/CapitalizeFirstLetter';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import styles from '../styles/Styles';
-import AddTask from '../screens/AddTask';
+import firebase from 'firebase';
+
+
 
 const getRightContent = (props) => {
   return (
@@ -38,9 +39,8 @@ const getRightContent = (props) => {
 };
 
 const ProjectListItem = (props) => {
-  const {task, onPressItem} = props;
-  const {name, date, req} = task;
-  //const {name, req} = tasks;
+  const {tasks, onPressItem} = props;
+  const {task, date, req} = tasks;
   return (
     <View>
       <Swipeable
@@ -50,7 +50,7 @@ const ProjectListItem = (props) => {
             <TouchableOpacity
               style={Styles.left}
               onPress={() => {
-                onPressItem({task});
+                onPressItem({tasks});
               }}>
               <Icon name="edit" size={30} color="#FFF" />
             </TouchableOpacity>
@@ -59,7 +59,7 @@ const ProjectListItem = (props) => {
         <View>
           <View style={Styles.titleContainer}>
             <Text style={Styles.projectTitle}>
-              {capitalizeFirstLetter(name)}
+              {capitalizeFirstLetter(task)}
             </Text>
           </View>
           <View style={Styles.reqContainer}>

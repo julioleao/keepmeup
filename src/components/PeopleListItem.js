@@ -1,9 +1,10 @@
 import React from 'react';
-import {Text, TouchableOpacity, View, Alert} from 'react-native';
+import {Text, TouchableOpacity, View, StyleSheet, Alert} from 'react-native';
 import Styles from '../styles/Styles';
 import capitalizeFirstLetter from '../util/CapitalizeFirstLetter';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
+import TaskList from './TaskList';
 import firebase from 'firebase';
 
 
@@ -37,10 +38,11 @@ const getRightContent = (props) => {
   );
 };
 
-const TaskListItem = (props) => {
-  const {task, onPressItem, onPressEdit} = props;
+const PeopleListItem = (props) => {
+  const {task, onPressItem} = props;
   const {name, date, description} = task;
 
+  //const {name, req} = tasks;
   return (
     <View>
       <Swipeable
@@ -49,8 +51,13 @@ const TaskListItem = (props) => {
           return (
             <TouchableOpacity
               style={Styles.left}
-              onPress={() => {  
-                onPressEdit({task});
+              onPress={() => {
+                <TaskList
+                task={task}
+                onPressItem={(parameters) =>
+                  props.navigation.navigate('ProjectDetail', parameters)
+                }
+              />
               }}>
               <Icon name="edit" size={30} color="#FFF" />
             </TouchableOpacity>
@@ -80,4 +87,4 @@ const TaskListItem = (props) => {
   );
 };
 
-export default TaskListItem;
+export default PeopleListItem;

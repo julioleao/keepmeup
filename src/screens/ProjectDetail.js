@@ -10,12 +10,13 @@ import {
 } from 'react-native';
 import Styles from '../styles/Styles';
 import capitalizeFirstLetter from '../util/CapitalizeFirstLetter';
-import Firebase from '../../Firebase';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
+import firebase from 'firebase';
 
-export default class TaskDetail extends React.Component {
+
+export default class ProjectDetail extends React.Component {
   state = {
     date: new Date(),
     showDatePicker: false,
@@ -52,8 +53,9 @@ export default class TaskDetail extends React.Component {
 
   render() {
     const {task} = this.props.navigation.state.params;
-    const {name, description } = task;
 
+    const {name, description } = task;
+    
     return (
       <View style={Styles.container}>
         <View style={Styles.titleContainer}>

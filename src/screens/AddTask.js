@@ -5,6 +5,8 @@ import {
     StyleSheet, 
     TouchableWithoutFeedback
 } from 'react-native';
+import firebase from 'firebase';
+
 
 export default class AddTask extends Component {
     render () {
