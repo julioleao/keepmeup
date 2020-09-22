@@ -22,11 +22,20 @@ export default class ProjectDetail extends React.Component {
     showDatePicker: false,
   };
 
+  setDate = (_, date) =>{
+    if(date === undefined) {
+     this.setState({date: new Date(), showDatePicker: false})
+    } else {
+      this.setState({date, showDatePicker: false})
+    }
+
+  }
+
   getDatetimePicker = () => {
     let datePicker = (
       <DateTimePicker
         value={this.state.date}
-        onChange={(_, date) => this.setState({date, showDatePicker: false})}
+        onChange={this.setDate}
         mode="date"
       />
     );

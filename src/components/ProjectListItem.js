@@ -2,11 +2,10 @@ import React from 'react';
 import {Text, TouchableOpacity, View, Alert} from 'react-native';
 import Styles from '../styles/Styles';
 import capitalizeFirstLetter from '../util/CapitalizeFirstLetter';
-import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
 import firebase from 'firebase';
-
-
+import LongText from './LongText';
 
 const getRightContent = (props) => {
   return (
@@ -39,8 +38,9 @@ const getRightContent = (props) => {
 };
 
 const ProjectListItem = (props) => {
-  const {tasks, onPressItem} = props;
-  const {task, date, req} = tasks;
+  const {task, onPressItem, onPressEdit} = props;
+  const {name, date, description} = task;
+
   return (
     <View>
       <Swipeable
@@ -50,22 +50,24 @@ const ProjectListItem = (props) => {
             <TouchableOpacity
               style={Styles.left}
               onPress={() => {
-                onPressItem({tasks});
+                onPressEdit({task});
               }}>
               <Icon name="edit" size={30} color="#FFF" />
             </TouchableOpacity>
           );
         }}>
         <View>
-          <View style={Styles.titleContainer}>
-            <Text style={Styles.projectTitle}>
-              {capitalizeFirstLetter(task)}
-            </Text>
-          </View>
-          <View style={Styles.reqContainer}>
-            <Text style={Styles.fontBold}>Requisitos</Text>
-            <Text style={Styles.projectReq}>{req}</Text>
-          </View>
+          <TouchableOpacity
+            onPress={() => {
+              onPressItem({task});
+            }}>
+            <View style={Styles.titleContainer}>
+              <Text style={Styles.projectTitle}>
+                {capitalizeFirstLetter(name)}
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <LongText label="Descrição" content={description} />
         </View>
       </Swipeable>
       <View style={Styles.descriptionContainer}>

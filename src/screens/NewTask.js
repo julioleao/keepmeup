@@ -14,18 +14,25 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import firebase from 'firebase';
 
-
 export default class NewTask extends React.Component {
   state = {
     date: new Date(),
     showDatePicker: false,
   };
 
+  setDate = (_, date) => {
+    if (date === undefined) {
+      this.setState({date: new Date(), showDatePicker: false});
+    } else {
+      this.setState({date, showDatePicker: false});
+    }
+  };
+
   getDatetimePicker = () => {
     let datePicker = (
       <DateTimePicker
         value={this.state.date}
-        onChange={(_, date) => this.setState({date, showDatePicker: false})}
+        onChange={this.setDate}
         mode="date"
       />
     );
@@ -36,11 +43,13 @@ export default class NewTask extends React.Component {
 
     if (Platform.OS === 'android') {
       datePicker = (
-        <View style={styles.row}>
+        <View>
           <TouchableOpacity
             onPress={() => this.setState({showDatePicker: true})}>
-            <Icon name="table" size={20}  />
-            <Text style={styles.date}>{dateString}</Text>
+            <View style={[styles.row, styles.date]}>
+              <Icon name="table" size={20} />
+              <Text>{dateString}</Text>
+            </View>
           </TouchableOpacity>
           {this.state.showDatePicker && datePicker}
         </View>
@@ -51,7 +60,6 @@ export default class NewTask extends React.Component {
   };
 
   render() {
-
     return (
       <View style={Styles.container}>
         <View style={Styles.titleContainer}>
@@ -60,12 +68,16 @@ export default class NewTask extends React.Component {
         <View style={Styles.reqContainer}>
           <Text style={Styles.fontBold}>Título</Text>
 
-          <TextInput style={styles.input} autoFocus={true} placeholder="Dê um nome">
-          </TextInput>
+          <TextInput
+            style={styles.input}
+            autoFocus={true}
+            placeholder="Dê um nome"></TextInput>
 
           <Text style={Styles.fontBold}>Requisitos</Text>
-          <TextInput multiline style={styles.input} placeholder="Quais os requisitos?">
-          </TextInput>
+          <TextInput
+            multiline
+            style={styles.input}
+            placeholder="Quais os requisitos?"></TextInput>
           <Text style={Styles.fontBold}>Data</Text>
           {this.getDatetimePicker()}
           {/* <TextInput style={styles.input}>{date}</TextInput> */}
@@ -90,13 +102,12 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   date: {
-    fontSize: 14,
-    marginBottom: 20,
-    padding: 10,
+    marginTop: 10,
+    marginBottom: 30,
   },
-  row:{
+  row: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
 });

@@ -1,11 +1,17 @@
 import React from 'react';
-import {Text, TouchableOpacity, View, Alert} from 'react-native';
+import {
+  Text,
+  TouchableOpacity,
+  View,
+  Alert,
+  Image,
+  StyleSheet,
+} from 'react-native';
 import Styles from '../styles/Styles';
 import capitalizeFirstLetter from '../util/CapitalizeFirstLetter';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import firebase from 'firebase';
-
 
 const getRightContent = (props) => {
   return (
@@ -38,9 +44,9 @@ const getRightContent = (props) => {
 };
 
 const TaskListItem = (props) => {
-  const {task, onPressItem, onPressEdit} = props;
-  const {name, date, description} = task;
-
+  const {tasks, onPressItem} = props;
+  const {task, date, req, name} = tasks;
+  const {thumbnail} = name.picture;
   return (
     <View>
       <Swipeable
@@ -49,28 +55,32 @@ const TaskListItem = (props) => {
           return (
             <TouchableOpacity
               style={Styles.left}
-              onPress={() => {  
-                onPressEdit({task});
+              onPress={() => {
+                onPressItem({tasks});
               }}>
               <Icon name="edit" size={30} color="#FFF" />
             </TouchableOpacity>
           );
         }}>
         <View>
-          <TouchableOpacity
-            onPress={() => {
-              onPressItem({task});
-              }}>
-            <View style={Styles.titleContainer}>
-              <Text style={Styles.projectTitle}>
-                {capitalizeFirstLetter(name)}
+          <View style={Styles.titleContainer}>
+            <Text style={Styles.projectTitle}>
+              {capitalizeFirstLetter(task)}
+            </Text>
+          </View>
+          <View style={[Styles.reqContainer, {flexDirection: 'row'}]}>
+            <View style={{flexDirection: 'column', flex: 1}}>
+              <Image source={{uri: thumbnail}} style={Styles.avatar} />
+            </View>
+            <View style={{flexDirection: 'column', flex: 3}}>
+              <Text style={Styles.fontBold}>Requisitos</Text>
+              <Text style={Styles.projectReq}>{req}</Text>
+              <Text style={Styles.fontBold}>Responsável</Text>
+              <Text style={Styles.projectReq}>
+                {name.first} {name.last}
               </Text>
             </View>
-            <View style={Styles.reqContainer}>
-              <Text style={Styles.fontBold}>Descrição</Text>
-              <Text style={Styles.projectReq}>{description}</Text>
-            </View>
-          </TouchableOpacity>
+          </View>
         </View>
       </Swipeable>
       <View style={Styles.descriptionContainer}>

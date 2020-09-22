@@ -5,17 +5,18 @@ import firebase from 'firebase';
 
 
 const TaskList = (props) => {
-  const {task, onPressItem, onPressEdit} = props;
+  const {tasks, onPressItem} = props;
+
   return (
     <View style={styles.container}>
       <FlatList
         contentContainerStyle={styles.list}
-        data={task}
+        data={tasks}
         renderItem={({item}) => (
-          <TaskListItem task={item} onPressItem={onPressItem} onPressEdit={onPressEdit}/>
+          <TaskListItem tasks={item} onPressItem={onPressItem} />
         )}
-        keyExtractor={(item) => item._id}
-      />
+        keyExtractor={(item) => item.req}
+      />      
     </View>
   );
 };

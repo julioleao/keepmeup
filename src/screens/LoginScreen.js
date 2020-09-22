@@ -8,12 +8,14 @@ import {
   Text,
   Alert,
 } from 'react-native';
-import firebase from '../../Firebase';
 import Styles from '../styles/Styles';
+import firebase from '../../Firebase';
 
 import FormRow from '../components/FormRow';
+import {processLogin} from '../actions';
+import {connect} from 'react-redux';
 
-export default class LoginScreen extends React.Component {
+class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
 
@@ -33,54 +35,25 @@ export default class LoginScreen extends React.Component {
 
   processLogin() {
     this.setState({isLoading: true});
-
     const {email, password} = this.state;
 
-    const loginUserSuccess = (user) => {
-      this.setState({message: 'Sucesso!'});
-      this.props.navigation.navigate('Main');
-    };
-
-    const loginUserFailed = (error) => {
-      this.setState({
-        message: this.getMessageByError(error.code),
-      });
-    };
-
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(loginUserSuccess)
-      .catch((error) => {
-        if (error.code == 'auth/user-not-found') {
-          Alert.alert(
-            'Usuário não encontrado',
-            'Deseja criar um novo usuário?',
-            [
-              {
-                text: 'Não',
-                onPress: () => {
-                  console.log('Usuario não quis criar nova conta.');
-                },
-              },
-              {
-                text: 'Sim',
-                onPress: () => {
-                  firebase
-                    .auth()
-                    .createUserWithEmailAndPassword(email, password)
-                    .then(loginUserSuccess)
-                    .catch(loginUserFailed);
-                },
-              },
-            ],
-            {cancelable: true},
-          );
+    this.props
+      .processLogin({email, password})
+      .then((user) => {
+        if (user) {
+          this.props.navigation.navigate('Main');
+        } else {
+          this.setState({
+            isLoading: false,
+            message: '',
+          });
         }
-        loginUserFailed(error);
       })
-      .then(() => {
-        this.setState({isLoading: false});
+      .catch((error) => {
+        this.setState({
+          isLoading: false,
+          message: this.getMessageByError(error.code),
+        });
       });
   }
 
@@ -104,7 +77,7 @@ export default class LoginScreen extends React.Component {
             <Text style={Styles.error}>E-mail inválido</Text>
           </View>
         );
-      case 'auth/invalid-password':
+      case 'auth/weak-password':
         return (
           <View>
             <Text style={Styles.error}>
@@ -115,14 +88,14 @@ export default class LoginScreen extends React.Component {
       default:
         return (
           <View>
-            <Text style={Styles.error}>Erro desconhecido</Text>
+            <Text style={Styles.error}>{code}</Text>
           </View>
         );
     }
   }
 
   renderButton() {
-    if (this.state.isLoading) return <ActivityIndicator />;
+    if (this.state.isLoading) return <ActivityIndicator color="#CBCBCB" />;
     return (
       <View style={{marginTop: 20}}>
         <Button
@@ -153,11 +126,13 @@ export default class LoginScreen extends React.Component {
           <Text style={Styles.fontBold}>E-mail</Text>
           <TextInput
             style={styles.textInput}
-            placeholder="E-mail: user@mail.com"
+            placeholder="user@mail.com"
             value={this.state.email}
             onChangeText={(valor) => {
               this.onChangeHandler('email', valor);
             }}
+            keyboardType="email-address"
+            autoCapitalize="none"
           />
         </FormRow>
         <FormRow>
@@ -198,3 +173,5 @@ const styles = StyleSheet.create({
     borderBottomColor: '#C5C5C5',
   },
 });
+
+export default connect(null, {processLogin})(LoginScreen);

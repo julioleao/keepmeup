@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
   titleContainer: {
@@ -29,6 +29,19 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 1,
   },
+  descContainer: {
+    borderRightWidth: 3,
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#DDD',
+    padding: 10,
+    elevation: 1,
+  },
+  line: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignContent: 'flex-start',
+  },
   projectTitle: {
     fontSize: 18,
     fontWeight: 'bold',
@@ -53,7 +66,7 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: '#999',
     lineHeight: 14,
-    textAlign: 'left',
+    overflow: 'hidden'
   },
   projectContainer: {
     backgroundColor: '#fff',
@@ -63,17 +76,23 @@ const styles = StyleSheet.create({
     padding: 20,
     marginBottom: 20,
   },
+  avatar: {
+    aspectRatio: 1,
+    flex: 2,
+    marginRight: 10,
+    borderRadius: 50,
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
     paddingHorizontal: 20,
-    backgroundColor: '#FFF'
+    backgroundColor: '#FFF',
   },
   containerLogin: {
     flex: 1,
     justifyContent: 'center',
     paddingHorizontal: 30,
-    backgroundColor: '#FFF'
+    backgroundColor: '#FFF',
   },
   list: {
     padding: 20,
@@ -83,7 +102,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#5a5a5a',
     lineHeight: 20,
-    textAlign: 'left'
+    textAlign: 'left',
   },
   error: {
     fontWeight: 'bold',
@@ -91,28 +110,28 @@ const styles = StyleSheet.create({
     color: 'red',
     marginTop: 20,
     lineHeight: 20,
-    justifyContent:"center",
-    textAlign: 'center'
+    justifyContent: 'center',
+    textAlign: 'center',
   },
   logo: {
     flex: 1,
     width: null,
     height: null,
-    resizeMode: 'contain'
+    resizeMode: 'contain',
   },
-  right:{
+  right: {
     backgroundColor: 'red',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
-  left:{
+  left: {
     backgroundColor: 'green',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   addButton: {
     position: 'absolute',
@@ -123,7 +142,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     backgroundColor: '#6f00ff',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
 });
 

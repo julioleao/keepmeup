@@ -12,25 +12,23 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import PeopleList from '../components/PeopleList';
 
 export default class TeamPage extends Component {
-  _isMounted = false;
   constructor(props) {
     super(props);
 
     this.state = {
-      task: [],
+      team: [],
       loading: false,
     };
   }
   componentDidMount() {
-    this._isMounted = true;
     this.setState({loading: true});
     axios
-      .get('https://api.jsonbin.io/b/5f4bab174d8ce4111383f5ea/2')
+      .get('https://api.jsonbin.io/b/5f4a9722993a2e110d3919e4/1')
       .then((response) => {
-        const {project} = response.data;
+        const {team} = response.data;
 
         this.setState({
-          task: project,
+          team: team,
           loading: false,
         });
       })
@@ -42,9 +40,6 @@ export default class TeamPage extends Component {
       });
   }
 
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
 
   render() {
     return (
@@ -55,7 +50,7 @@ export default class TeamPage extends Component {
           <Text style={styles.error}>Erro ao carregar lista!</Text>
         ) : (
           <PeopleList
-            task={this.state.task}
+            team={this.state.team}
             onPressItem={(parameters) =>
               this.props.navigation.navigate('ProjectPage', parameters)
             }

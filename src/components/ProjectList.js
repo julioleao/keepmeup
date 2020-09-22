@@ -1,22 +1,25 @@
 import React from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
 import ProjectListItem from './ProjectListItem';
 import firebase from 'firebase';
-
+import {connect} from 'react-redux';
 
 const ProjectList = (props) => {
-  const {tasks, onPressItem} = props;
-
+  const {task, onPressItem, onPressEdit} = props;
   return (
     <View style={styles.container}>
       <FlatList
         contentContainerStyle={styles.list}
-        data={tasks}
+        data={task}
         renderItem={({item}) => (
-          <ProjectListItem tasks={item} onPressItem={onPressItem} />
+          <ProjectListItem
+            task={item}
+            onPressItem={onPressItem}
+            onPressEdit={onPressEdit}
+          />
         )}
-        keyExtractor={(item) => item.req}
-      />      
+        keyExtractor={(item) => item._id}
+      />
     </View>
   );
 };
@@ -32,4 +35,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProjectList;
+const mapStateToProps = (state) => {
+  return {
+    project: state.projectList,
+  };
+};
+
+export default /* connect(mapStateToProps) */(ProjectList);
