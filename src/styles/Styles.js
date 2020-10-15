@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: '#999',
     lineHeight: 14,
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
   projectContainer: {
     backgroundColor: '#fff',
@@ -80,7 +80,14 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     flex: 2,
     marginRight: 10,
-    borderRadius: 50,
+    borderRadius: 5000,
+  },
+  pic: {
+    aspectRatio: 1,
+    width: '70%',
+    borderRadius: 3000,
+    justifyContent: 'center',
+    alignSelf: 'center',
   },
   container: {
     flex: 1,

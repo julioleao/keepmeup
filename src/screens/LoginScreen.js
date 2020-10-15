@@ -41,7 +41,7 @@ class LoginScreen extends React.Component {
       .processLogin({email, password})
       .then((user) => {
         if (user) {
-          this.props.navigation.navigate('Main');
+          this.props.navigation.navigate('App');
         } else {
           this.setState({
             isLoading: false,
@@ -95,7 +95,7 @@ class LoginScreen extends React.Component {
   }
 
   renderButton() {
-    if (this.state.isLoading) return <ActivityIndicator color="#CBCBCB" />;
+    if (this.state.isLoading) return <ActivityIndicator color="#6f00ff" />;
     return (
       <View style={{marginTop: 20}}>
         <Button

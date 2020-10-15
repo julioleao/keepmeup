@@ -6,24 +6,23 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {connect} from 'react-redux';
 
-import {deleteTask} from '../actions';
-import LongText from './LongText';
+import {deleteTeam} from '../actions';
 
-class TaskListItem extends Component {
+class TeamListItem extends Component {
   getRightContent = () => {
     return (
       <TouchableOpacity
         style={Styles.right}
         onPress={async () => {
-          await this.props.deleteTask(this.props.task);
+          await this.props.deleteTeam(this.props.team);
         }}>
         <Icon name="trash" size={30} color="#FFF" />
       </TouchableOpacity>
     );
   };
   render() {
-    const {task, onPressItem, onPressEdit} = this.props;
-    const {name, date, req} = task;
+    const {team, onPressItem, onPressEdit} = this.props;
+    const {name, email, pic, role} = team;
     return (
       <View>
         <Swipeable
@@ -33,7 +32,7 @@ class TaskListItem extends Component {
               <TouchableOpacity
                 style={Styles.left}
                 onPress={() => {
-                  onPressEdit({taskToEdit: task});
+                  onPressEdit({teamToEdit: team});
                 }}>
                 <Icon name="edit" size={30} color="#FFF" />
               </TouchableOpacity>
@@ -45,15 +44,30 @@ class TaskListItem extends Component {
                 {capitalizeFirstLetter(name)}
               </Text>
             </View>
-            <LongText label="Requisitos" content={req} />
+            <View style={[Styles.reqContainer, {flexDirection: 'row'}]}>
+              <View style={{flexDirection: 'column', flex: 1, marginRight: 20}}>
+                <Image
+                  source={{uri: `data:image/jpeg;base64, ${pic}`}}
+                  style={Styles.avatar}
+                />
+              </View>
+              <View style={{flexDirection: 'column', flex: 4}}>
+                <Text style={Styles.fontBold}>Nome</Text>
+                <Text style={Styles.projectReq}>
+                  {capitalizeFirstLetter(name)}
+                </Text>
+                <Text style={Styles.fontBold}>Email</Text>
+                <Text style={Styles.projectReq}>{email}</Text>
+              </View>
+            </View>
           </View>
         </Swipeable>
         <View style={Styles.descriptionContainer}>
-          <Text style={Styles.projectDate}>Data limite: {date}</Text>
+          <Text style={Styles.projectDate}>Função: {role}</Text>
         </View>
       </View>
     );
   }
 }
 
-export default connect(null, {deleteTask})(TaskListItem);
+export default connect(null, {deleteTeam})(TeamListItem);

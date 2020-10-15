@@ -1,64 +1,70 @@
-import axios from 'axios';
 import React, {Component} from 'react';
 import {
   ActivityIndicator,
+  FlatList,
+  ScrollView,
   StyleSheet,
-  Text,
-  View,
   TouchableOpacity,
+  View,
 } from 'react-native';
-import Styles from '../styles/Styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import PeopleList from '../components/PeopleList';
+import styles from '../styles/Styles';
+import TeamListItem from '../components/TeamListItem';
+import {connect} from 'react-redux';
 
-export default class TeamPage extends Component {
-  constructor(props) {
-    super(props);
+import {teamList} from '../actions';
 
-    this.state = {
-      team: [],
-      loading: false,
-    };
-  }
+class TeamPage extends Component {
+  state = {
+    isLoading: true,
+  };
   componentDidMount() {
-    this.setState({loading: true});
-    axios
-      .get('https://api.jsonbin.io/b/5f4a9722993a2e110d3919e4/1')
-      .then((response) => {
-        const {team} = response.data;
-
-        this.setState({
-          team: team,
-          loading: false,
-        });
-      })
-      .catch((error) => {
-        this.setState({
-          error: true,
-          loading: false,
-        });
-      });
+    this.props.teamList();
   }
-
 
   render() {
-    return (
-      <View style={styles.container}>
-        {this.state.loading ? (
-          <ActivityIndicator size="large" color="#CBCBCB" />
-        ) : this.state.error ? (
-          <Text style={styles.error}>Erro ao carregar lista!</Text>
-        ) : (
-          <PeopleList
-            team={this.state.team}
-            onPressItem={(parameters) =>
-              this.props.navigation.navigate('ProjectPage', parameters)
-            }
+    if (this.props.team === null) {
+      return (
+        <View style={Styles.container}>
+          <ActivityIndicator
+            size="large"
+            color="#6f00ff"
+            style={styles.container}
           />
-        )}
+          <TouchableOpacity
+            style={styles.addButton}
+            onPress={() =>
+              this.props.navigation.navigate('NewTeam', {teamToEdit: null})
+            }>
+            <Icon name="plus" size={20} color="#FFF" />
+          </TouchableOpacity>
+        </View>
+      );
+    }
+
+    return (
+      <View style={[styles.container, {paddingHorizontal: 0}]}>
+        <ScrollView contentContainerStyle={{height: '85%'}}>
+          <FlatList
+            contentContainerStyle={Styles.list}
+            data={this.props.team}
+            renderItem={({item}) => (
+              <TeamListItem
+                team={item}
+                onPressEdit={(parameters) =>
+                  this.props.navigation.navigate('NewTeam', parameters)
+                }
+              />
+            )}
+            keyExtractor={(item) => item.id}
+          />
+        </ScrollView>
+
         <TouchableOpacity
-          style={Styles.addButton}
-          onPress={() => this.props.navigation.navigate('NewProject')}>
+          style={styles.addButton}
+          onPress={() =>
+            this.props.navigation.navigate('NewTeam', {teamToEdit: null})
+          }>
           <Icon name="plus" size={20} color="#FFF" />
         </TouchableOpacity>
       </View>
@@ -66,14 +72,29 @@ export default class TeamPage extends Component {
   }
 }
 
-const styles = StyleSheet.create({
+const Styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    backgroundColor: '#fafafa',
   },
-  error: {
-    fontSize: 18,
-    alignSelf: 'center',
-    color: 'red',
+
+  list: {
+    padding: 20,
   },
 });
+
+const mapStateToProps = (state) => {
+  const {teamList} = state;
+
+  if (teamList === null) {
+    return {team: teamList};
+  }
+
+  const keys = Object.keys(teamList);
+  const teamListWithId = keys.map((key) => {
+    return {...teamList[key], id: key};
+  });
+  return {team: teamListWithId};
+};
+
+export default connect(mapStateToProps, {teamList})(TeamPage);

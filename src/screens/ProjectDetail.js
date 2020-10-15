@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Button,
   Platform,
+  ScrollView,
 } from 'react-native';
 import Styles from '../styles/Styles';
 import capitalizeFirstLetter from '../util/CapitalizeFirstLetter';
@@ -15,21 +16,19 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import firebase from 'firebase';
 
-
 export default class ProjectDetail extends React.Component {
   state = {
     date: new Date(),
     showDatePicker: false,
   };
 
-  setDate = (_, date) =>{
-    if(date === undefined) {
-     this.setState({date: new Date(), showDatePicker: false})
+  setDate = (_, date) => {
+    if (date === undefined) {
+      this.setState({date: new Date(), showDatePicker: false});
     } else {
-      this.setState({date, showDatePicker: false})
+      this.setState({date, showDatePicker: false});
     }
-
-  }
+  };
 
   getDatetimePicker = () => {
     let datePicker = (
@@ -49,7 +48,7 @@ export default class ProjectDetail extends React.Component {
         <View style={styles.row}>
           <TouchableOpacity
             onPress={() => this.setState({showDatePicker: true})}>
-            <Icon name="table" size={20}  />
+            <Icon name="table" size={20} />
             <Text style={styles.date}>{dateString}</Text>
           </TouchableOpacity>
           {this.state.showDatePicker && datePicker}
@@ -63,29 +62,32 @@ export default class ProjectDetail extends React.Component {
   render() {
     const {task} = this.props.navigation.state.params;
 
-    const {name, description } = task;
-    
+    const {name, description} = task;
+
     return (
       <View style={Styles.container}>
-        <View style={Styles.titleContainer}>
-          <Text style={Styles.projectTitle}>EDITAR</Text>
-        </View>
-        <View style={Styles.reqContainer}>
-          <Text style={Styles.fontBold}>Título</Text>
+        <ScrollView
+          contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}>
+          <View style={Styles.titleContainer}>
+            <Text style={Styles.projectTitle}>EDITAR</Text>
+          </View>
+          <View style={Styles.reqContainer}>
+            <Text style={Styles.fontBold}>Título</Text>
 
-          <TextInput style={styles.input} autoFocus={true}>
-            {capitalizeFirstLetter(name)}
-          </TextInput>
+            <TextInput style={styles.input} autoFocus={true}>
+              {capitalizeFirstLetter(name)}
+            </TextInput>
 
-          <Text style={Styles.fontBold}>Descrição</Text>
-          <TextInput multiline style={styles.input}>
-            {description}
-          </TextInput>
-          <Text style={Styles.fontBold}>Data</Text>
-          {this.getDatetimePicker()}
-          {/* <TextInput style={styles.input}>{date}</TextInput> */}
-          <Button title="Salvar" />
-        </View>
+            <Text style={Styles.fontBold}>Descrição</Text>
+            <TextInput multiline style={styles.input}>
+              {description}
+            </TextInput>
+            <Text style={Styles.fontBold}>Data</Text>
+            {this.getDatetimePicker()}
+            {/* <TextInput style={styles.input}>{date}</TextInput> */}
+            <Button title="Salvar" />
+          </View>
+        </ScrollView>
       </View>
     );
   }
@@ -109,9 +111,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     padding: 10,
   },
-  row:{
+  row: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
 });

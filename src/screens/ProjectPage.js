@@ -3,68 +3,70 @@ import React, {Component} from 'react';
 import {
   ActivityIndicator,
   StyleSheet,
-  Text,
   View,
   TouchableOpacity,
+  FlatList,
+  ScrollView,
 } from 'react-native';
-import ProjectList from '../components/ProjectList';
 import Styles from '../styles/Styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import ProjectListItem from '../components/ProjectListItem';
+import {connect} from 'react-redux';
 
-export default class ProjectPage extends Component {
-  _isMounted = false;
-  constructor(props) {
-    super(props);
+import {projectList} from '../actions';
 
-    this.state = {
-      task: [],
-      loading: false,
-    };
-  }
+class ProjectPage extends Component {
   componentDidMount() {
-    this._isMounted = true;
-    this.setState({loading: true});
-    axios
-      .get('https://api.jsonbin.io/b/5f4bab174d8ce4111383f5ea/2')
-      .then((response) => {
-        const {project} = response.data;
-
-        this.setState({
-          task: project,
-          loading: false,
-        });
-      })
-      .catch((error) => {
-        this.setState({
-          error: true,
-          loading: false,
-        });
-      });
-  }
-  
-  componentWillUnmount() {
-    this._isMounted = false;
+    this.props.projectList();
   }
 
   render() {
+    if (this.props.project === null) {
+      return (
+        <View style={Styles.container}>
+          <ActivityIndicator
+            size="large"
+            color="#6f00ff"
+            style={styles.container}
+          />
+          <TouchableOpacity
+            style={Styles.addButton}
+            onPress={() =>
+              this.props.navigation.navigate('NewProject', {
+                projectToEdit: null,
+              })
+            }>
+            <Icon name="plus" size={20} color="#FFF" />
+          </TouchableOpacity>
+        </View>
+      );
+    }
     return (
       <View style={styles.container}>
-        {this.state.loading ? (
-          <ActivityIndicator size="large" color="#CBCBCB" />
-        ) : this.state.error ? (
-          <Text style={styles.error}>Erro ao carregar lista!</Text>
-        ) : (
-          <ProjectList
-            task={this.state.task}
-            onPressItem={(parameters) =>
-              this.props.navigation.navigate('TaskPage', parameters)
-            }
-            onPressEdit={(parameters) =>
-              this.props.navigation.navigate('ProjectDetail', parameters)
-            }
+        <ScrollView contentContainerStyle={{height: '85%'}}>
+          <FlatList
+            contentContainerStyle={styles.list}
+            data={[...this.props.project]}
+            renderItem={({item}) => (
+              <ProjectListItem
+                task={item}
+                /* onPressItem={(parameters) =>
+                  this.props.navigation.navigate('TaskPage', parameters)
+                } */
+                onPressEdit={(parameters) =>
+                  this.props.navigation.navigate('NewProject', parameters)
+                }
+              />
+            )}
+            keyExtractor={(item) => item.id}
           />
-        )}
-        <TouchableOpacity style={Styles.addButton} onPress={() => this.props.navigation.navigate('NewProject')}>
+        </ScrollView>
+
+        <TouchableOpacity
+          style={Styles.addButton}
+          onPress={() =>
+            this.props.navigation.navigate('NewProject', {projectToEdit: null})
+          }>
           <Icon name="plus" size={20} color="#FFF" />
         </TouchableOpacity>
       </View>
@@ -75,7 +77,12 @@ export default class ProjectPage extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fafafa',
     justifyContent: 'center',
+  },
+
+  list: {
+    padding: 20,
   },
   error: {
     fontSize: 18,
@@ -83,3 +90,19 @@ const styles = StyleSheet.create({
     color: 'red',
   },
 });
+
+const mapStateToProps = (state) => {
+  const {projectList} = state;
+
+  if (projectList === null) {
+    return {project: projectList};
+  }
+
+  const keys = Object.keys(projectList);
+  const projectListWithId = keys.map((key) => {
+    return {...projectList[key], id: key};
+  });
+  return {project: projectListWithId};
+};
+
+export default connect(mapStateToProps, {projectList})(ProjectPage);

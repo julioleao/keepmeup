@@ -17,14 +17,34 @@ export const projectSavedSuccess = () => {
   };
 };
 
+export const RESET_FORM = 'RESET_FORM';
+export const resetForm = () => {
+  return {
+    type: RESET_FORM,
+  };
+};
+
+export const SET_ALL_FIELDS = 'SET_ALL_FIELDS';
+export const setAllFields = (project) => ({
+  type: SET_ALL_FIELDS,
+  project: project,
+});
+
 export const saveProject = (project) => {
   const {currentUser} = firebase.auth();
 
   return async (dispatch) => {
-    await firebase
-      .database()
-      .ref(`/users/${currentUser.uid}/projects`)
-      .push(project);
+    if (project.id) {
+      await firebase
+        .database()
+        .ref(`/users/${currentUser.uid}/project/${project.id}`)
+        .set(project);
+    } else {
+      await firebase
+        .database()
+        .ref(`/users/${currentUser.uid}/project`)
+        .push(project);
+    }
 
     dispatch(projectSavedSuccess());
   };

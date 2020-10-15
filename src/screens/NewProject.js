@@ -9,110 +9,118 @@ import {
   Platform,
   ActivityIndicator,
   Alert,
+  ScrollView,
 } from 'react-native';
 import Styles from '../styles/Styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 import firebase from 'firebase';
 import {connect} from 'react-redux';
-import {setField, saveProject} from '../actions';
+import {setField, saveProject, setAllFields, resetForm} from '../actions';
+import '../util/pt-br';
 
 class NewProject extends Component {
   state = {
-    date: new Date(),
+    date: moment().locale('pt-BR').format('dddd, D [de] MMMM [de] YYYY'),
     showDatePicker: false,
     isLoading: false,
+    title: '',
   };
 
-  setDate = (_, date) => {
-    if (date === undefined) {
-      this.setState({date: new Date(), showDatePicker: false});
+  handlePicker = (date) => {
+    const {setField} = this.props;
+    this.setState({
+      showDatePicker: false,
+      date: moment(date).locale('pt-BR').format('dddd, D [de] MMMM [de] YYYY'),
+    });
+    const value = moment(date)
+      .locale('pt-BR')
+      .format('dddd, D [de] MMMM [de] YYYY');
+    setField('date', value);
+  };
+
+  hidePicker = () => {
+    this.setState({showDatePicker: false});
+  };
+
+  componentDidMount() {
+    const {navigation, setAllFields, resetForm} = this.props;
+    const {params} = navigation.state;
+    if (params.projectToEdit && params) {
+      setAllFields(params.projectToEdit);
+      this.setState({title: 'Editar'});
     } else {
-      this.setState({date, showDatePicker: false});
+      this.setState({title: 'Criar Novo'});
+      resetForm();
     }
-  };
-
-  getDatetimePicker = () => {
-    let datePicker = (
-      <DateTimePicker
-        value={this.state.date}
-        onChange={this.setDate}
-        mode="date"
-      />
-    );
-
-    const dateString = moment(this.state.date).format(
-      'ddd, D [de] MMMM [de] YYYY',
-    );
-
-    if (Platform.OS === 'android') {
-      datePicker = (
-        <View>
-          <TouchableOpacity
-            onPress={() => this.setState({showDatePicker: true})}>
-            <View style={[styles.row, styles.date]}>
-              <Icon name="table" size={20} />
-              <Text>{dateString}</Text>
-            </View>
-          </TouchableOpacity>
-          {this.state.showDatePicker && datePicker}
-        </View>
-      );
-    }
-
-    return datePicker;
-  };
+  }
 
   render() {
     const {projectForm, setField, saveProject, navigation} = this.props;
 
     return (
       <View style={Styles.container}>
-        <View style={Styles.titleContainer}>
-          <Text style={Styles.projectTitle}>Criar novo Projeto</Text>
-        </View>
+        <ScrollView
+          contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}>
+          <View style={Styles.titleContainer}>
+            <Text style={Styles.projectTitle}>{this.state.title} Projeto</Text>
+          </View>
 
-        <View style={Styles.reqContainer}>
-          <Text style={Styles.fontBold}>Título</Text>
-          <TextInput
-            value={projectForm.name}
-            onChangeText={(value) => setField('name', value)}
-            style={styles.input}
-            autoFocus={true}
-            placeholder="Dê um nome"></TextInput>
+          <View style={Styles.reqContainer}>
+            <Text style={Styles.fontBold}>Título</Text>
+            <TextInput
+              value={projectForm.name}
+              onChangeText={(value) => setField('name', value)}
+              style={styles.input}
+              autoFocus={true}
+              placeholder="Dê um nome"></TextInput>
 
-          <Text style={Styles.fontBold}>Descrição</Text>
-          <TextInput
-            value={projectForm.description}
-            onChangeText={(value) => setField('description', value)}
-            multiline
-            style={styles.input}
-            placeholder="Ex. Qual o objetivo?"></TextInput>
+            <Text style={Styles.fontBold}>Descrição</Text>
+            <TextInput
+              value={projectForm.description}
+              onChangeText={(value) => setField('description', value)}
+              multiline
+              style={styles.input}
+              placeholder="Ex. Qual o objetivo?"></TextInput>
 
-          <Text style={Styles.fontBold}>Data da entrega</Text>
-          {this.getDatetimePicker()}
+            <Text style={Styles.fontBold}>Data da entrega</Text>
+            <View>
+              <TouchableOpacity
+                onPress={() => this.setState({showDatePicker: true})}>
+                <View style={[styles.row, styles.date]}>
+                  <Icon name="table" size={20} />
+                  <Text>{projectForm.date || this.state.date}</Text>
+                </View>
+              </TouchableOpacity>
+              <DateTimePicker
+                isVisible={this.state.showDatePicker}
+                onConfirm={this.handlePicker}
+                onCancel={this.hidePicker}
+                mode={'date'}
+              />
+            </View>
+            {this.state.isLoading ? (
+              <ActivityIndicator color="#6f00ff" />
+            ) : (
+              <Button
+                title="Salvar"
+                onPress={async () => {
+                  this.setState({isLoading: true});
 
-          {this.state.isLoading ? (
-            <ActivityIndicator color="#CBCBCB" />
-          ) : (
-            <Button
-              title="Salvar"
-              onPress={async () => {
-                this.setState({isLoading: true});
-
-                try {
-                  await saveProject(projectForm);
-                  navigation.goBack();
-                } catch (error) {
-                  Alert.alert('Erro!', error.message);
-                } finally {
-                  this.setState({isLoading: false});
-                }
-              }}
-            />
-          )}
-        </View>
+                  try {
+                    await saveProject(projectForm);
+                    navigation.goBack();
+                  } catch (error) {
+                    Alert.alert('Erro!', error.message);
+                  } finally {
+                    this.setState({isLoading: false});
+                  }
+                }}
+              />
+            )}
+          </View>
+        </ScrollView>
       </View>
     );
   }
@@ -150,6 +158,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   setField,
   saveProject,
+  setAllFields,
+  resetForm,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewProject);
