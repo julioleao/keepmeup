@@ -4,6 +4,7 @@ import {
   FlatList,
   ScrollView,
   StyleSheet,
+  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -16,16 +17,19 @@ import {teamList} from '../actions';
 
 class TeamPage extends Component {
   state = {
-    isLoading: true,
+    loading: true,
   };
   componentDidMount() {
     this.props.teamList();
   }
 
   render() {
-    if (this.props.team === null) {
+    if (this.props.team === null && this.state.loading) {
+      setTimeout(() => {
+        this.setState({loading: false});
+      }, 4000);
       return (
-        <View style={Styles.container}>
+        <View style={styles.container}>
           <ActivityIndicator
             size="large"
             color="#6f00ff"
@@ -42,9 +46,27 @@ class TeamPage extends Component {
       );
     }
 
+    if (this.props.team === null) {
+      return (
+        <View style={styles.container}>
+          <Text style={styles.error}>Nenhum registro encontrado</Text>
+
+          <TouchableOpacity
+            style={styles.addButton}
+            onPress={() =>
+              this.props.navigation.navigate('NewTeam', {
+                teamToEdit: null,
+              })
+            }>
+            <Icon name="plus" size={20} color="#FFF" />
+          </TouchableOpacity>
+        </View>
+      );
+    }
+
     return (
-      <View style={[styles.container, {paddingHorizontal: 0}]}>
-        <ScrollView contentContainerStyle={{height: '85%'}}>
+      <View style={[Styles.container, {paddingHorizontal: 0}]}>
+        <View style={[Styles.container, {paddingHorizontal: 0}]}>
           <FlatList
             contentContainerStyle={Styles.list}
             data={this.props.team}
@@ -58,15 +80,16 @@ class TeamPage extends Component {
             )}
             keyExtractor={(item) => item.id}
           />
-        </ScrollView>
-
-        <TouchableOpacity
-          style={styles.addButton}
-          onPress={() =>
-            this.props.navigation.navigate('NewTeam', {teamToEdit: null})
-          }>
-          <Icon name="plus" size={20} color="#FFF" />
-        </TouchableOpacity>
+        </View>
+        <View style={{height: '10%'}}>
+          <TouchableOpacity
+            style={styles.addButton}
+            onPress={() =>
+              this.props.navigation.navigate('NewTeam', {teamToEdit: null})
+            }>
+            <Icon name="plus" size={20} color="#FFF" />
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }

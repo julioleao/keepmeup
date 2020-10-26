@@ -19,6 +19,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {connect} from 'react-redux';
 import {RNCamera} from 'react-native-camera';
 import CameraRollPicker from 'react-native-camera-roll-picker';
+import ImagePicker from 'react-native-image-picker';
 import ImgToBase64 from 'react-native-image-base64';
 import {setField, saveTeam, setAllFieldsTeam, resetForm} from '../actions';
 
@@ -30,6 +31,7 @@ class NewTeam extends Component {
     isLoading: false,
     isCamera: false,
     isCameraRoll: false,
+    avatar: '',
   };
 
   componentDidMount() {
@@ -69,6 +71,7 @@ class NewTeam extends Component {
     return (
       <CameraRollPicker
         maximum={1}
+        selectSingleItem={true}
         callback={(item) => {
           if (item.length > 0) {
             ImgToBase64.getBase64String(item[0].uri)
@@ -135,6 +138,16 @@ class NewTeam extends Component {
     );
   }
 
+  callback = (data) => {
+    if (data.didCancel || data.error) {
+      return;
+    }
+    if (data.data) {
+      const pic = [data.data];
+      this.props.setField('pic', pic);
+    }
+  };
+
   viewForm() {
     const {teamForm, setField, saveTeam, navigation} = this.props;
 
@@ -156,7 +169,20 @@ class NewTeam extends Component {
                 />
               ) : null}
               <TouchableWithoutFeedback
-                onPress={() => {
+                onPress={
+                  () =>
+                    ImagePicker.showImagePicker(
+                      {
+                        title: 'Selecione uma foto',
+                        cancelButtonTitle: 'CANCELAR',
+                        takePhotoButtonTitle: 'Abrir a câmera',
+                        chooseFromLibraryButtonTitle: 'Escolher da galeria',
+                        cameraType: 'back',
+                      },
+                      this.callback,
+                    )
+
+                  /* () => {
                   Alert.alert(
                     'Captura de imagem',
                     'Escolha a fonte de sua imagem:',
@@ -176,7 +202,8 @@ class NewTeam extends Component {
                     ],
                     {cancelable: true},
                   );
-                }}>
+                } */
+                }>
                 <Icon
                   style={{paddingTop: 15}}
                   name="camera"
@@ -238,13 +265,13 @@ class NewTeam extends Component {
   }
 
   render() {
-    if (this.state.isCameraRoll) {
+    /* if (this.state.isCameraRoll) {
       return this.viewGallery();
     }
 
     if (this.state.isCamera) {
       return this.viewCamera();
-    }
+    } */
     return this.viewForm();
   }
 }

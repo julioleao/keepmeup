@@ -33,7 +33,6 @@ export const deleteTask = (task) => {
             text: 'Não',
             onPress: () => {
               resolve(false);
-              console.log('Usuario não quis excluir');
             },
           },
           {
@@ -46,7 +45,6 @@ export const deleteTask = (task) => {
                   .ref(`/users/${currentUser.uid}/task/${task.id}`)
                   .remove();
                 resolve(true);
-                console.log(`tarefa ${task.name} foi excluido`);
               } catch (error) {
                 reject(error);
               }

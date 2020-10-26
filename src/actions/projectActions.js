@@ -34,7 +34,6 @@ export const deleteProject = (project) => {
             text: 'Não',
             onPress: () => {
               resolve(false);
-              console.log('Usuario não quis excluir');
             },
           },
           {
@@ -47,7 +46,6 @@ export const deleteProject = (project) => {
                   .ref(`/users/${currentUser.uid}/project/${project.id}`)
                   .remove();
                 resolve(true);
-                console.log(`Projeto ${project.name} foi excluido`);
               } catch (error) {
                 reject(error);
               }

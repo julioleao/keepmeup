@@ -12,6 +12,8 @@ target 'keepmeup' do
 
   pod 'RNDateTimePicker', :path => '../node_modules/@react-native-community/datetimepicker'
 
+  pod 'react-native-image-base64', :path => '../node_modules/react-native-image-base64'
+
   target 'keepmeupTests' do
     inherit! :complete
     # Pods for testing

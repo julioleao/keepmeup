@@ -12,6 +12,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     elevation: 1,
   },
+  error: {
+    fontSize: 18,
+    alignSelf: 'center',
+    color: 'red',
+  },
   descriptionContainer: {
     borderBottomWidth: 1,
     borderRightWidth: 3,

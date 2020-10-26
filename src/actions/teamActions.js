@@ -33,7 +33,6 @@ export const deleteTeam = (team) => {
             text: 'Não',
             onPress: () => {
               resolve(false);
-              console.log('Usuario não quis excluir');
             },
           },
           {
@@ -46,7 +45,6 @@ export const deleteTeam = (team) => {
                   .ref(`/users/${currentUser.uid}/team/${team.id}`)
                   .remove();
                 resolve(true);
-                console.log(`tarefa ${team.name} foi excluido`);
               } catch (error) {
                 reject(error);
               }

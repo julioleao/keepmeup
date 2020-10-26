@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   FlatList,
   ScrollView,
+  Alert,
+  Text,
 } from 'react-native';
 import Styles from '../styles/Styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -16,12 +18,18 @@ import {connect} from 'react-redux';
 import {projectList} from '../actions';
 
 class ProjectPage extends Component {
+  state = {
+    loading: true,
+  };
   componentDidMount() {
     this.props.projectList();
   }
 
   render() {
-    if (this.props.project === null) {
+    if (this.props.project === null && this.state.loading) {
+      setTimeout(() => {
+        this.setState({loading: false});
+      }, 4000);
       return (
         <View style={Styles.container}>
           <ActivityIndicator
@@ -29,6 +37,14 @@ class ProjectPage extends Component {
             color="#6f00ff"
             style={styles.container}
           />
+        </View>
+      );
+    }
+    if (this.props.project === null) {
+      return (
+        <View style={Styles.container}>
+          <Text style={Styles.error}>Nenhum registro encontrado</Text>
+
           <TouchableOpacity
             style={Styles.addButton}
             onPress={() =>
@@ -42,8 +58,8 @@ class ProjectPage extends Component {
       );
     }
     return (
-      <View style={styles.container}>
-        <ScrollView contentContainerStyle={{height: '85%'}}>
+      <View style={[Styles.container, {paddingHorizontal: 0}]}>
+        <View style={[styles.container, {paddingHorizontal: 0}]}>
           <FlatList
             contentContainerStyle={styles.list}
             data={[...this.props.project]}
@@ -60,15 +76,18 @@ class ProjectPage extends Component {
             )}
             keyExtractor={(item) => item.id}
           />
-        </ScrollView>
-
-        <TouchableOpacity
-          style={Styles.addButton}
-          onPress={() =>
-            this.props.navigation.navigate('NewProject', {projectToEdit: null})
-          }>
-          <Icon name="plus" size={20} color="#FFF" />
-        </TouchableOpacity>
+        </View>
+        <View style={{height: '10%'}}>
+          <TouchableOpacity
+            style={Styles.addButton}
+            onPress={() =>
+              this.props.navigation.navigate('NewProject', {
+                projectToEdit: null,
+              })
+            }>
+            <Icon name="plus" size={20} color="#FFF" />
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
