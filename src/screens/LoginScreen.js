@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   Text,
   Alert,
+  ImageBackground,
 } from 'react-native';
 import Styles from '../styles/Styles';
 import firebase from '../../Firebase';
@@ -14,6 +15,7 @@ import firebase from '../../Firebase';
 import FormRow from '../components/FormRow';
 import {processLogin} from '../actions';
 import {connect} from 'react-redux';
+import logo from '../assets/logo.png';
 
 class LoginScreen extends React.Component {
   constructor(props) {
@@ -122,34 +124,36 @@ class LoginScreen extends React.Component {
   render() {
     return (
       <View style={Styles.containerLogin}>
-        <FormRow>
-          <Text style={Styles.fontBold}>E-mail</Text>
-          <TextInput
-            style={styles.textInput}
-            placeholder="user@mail.com"
-            value={this.state.email}
-            onChangeText={(valor) => {
-              this.onChangeHandler('email', valor);
-            }}
-            keyboardType="email-address"
-            autoCapitalize="none"
-          />
-        </FormRow>
-        <FormRow>
-          <Text style={Styles.fontBold}>Senha</Text>
-          <TextInput
-            style={styles.textInput}
-            placeholder="Digite sua senha"
-            secureTextEntry={true}
-            value={this.state.password}
-            onChangeText={(valor) => {
-              this.onChangeHandler('password', valor);
-            }}
-          />
-        </FormRow>
-
-        {this.renderButton()}
-        {this.renderMessage()}
+        <ImageBackground source={logo} style={styles.logo}></ImageBackground>
+        <View style={styles.loginContainer}>
+          <FormRow>
+            <Text style={Styles.fontBold}>E-mail</Text>
+            <TextInput
+              style={styles.textInput}
+              placeholder="user@mail.com"
+              value={this.state.email}
+              onChangeText={(valor) => {
+                this.onChangeHandler('email', valor);
+              }}
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
+          </FormRow>
+          <FormRow>
+            <Text style={Styles.fontBold}>Senha</Text>
+            <TextInput
+              style={styles.textInput}
+              placeholder="Digite sua senha"
+              secureTextEntry={true}
+              value={this.state.password}
+              onChangeText={(valor) => {
+                this.onChangeHandler('password', valor);
+              }}
+            />
+          </FormRow>
+          {this.renderButton()}
+          {this.renderMessage()}
+        </View>
       </View>
     );
   }
@@ -171,6 +175,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#6f00ff',
     borderBottomWidth: 1,
     borderBottomColor: '#C5C5C5',
+  },
+  logo: {
+    flex: 4,
+    aspectRatio: 1,
+    alignSelf: 'center',
+  },
+  loginContainer: {
+    flex: 6,
   },
 });
 
